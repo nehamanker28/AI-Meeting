@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:MeetingNotes.MAUI.ViewModels.Meetings"
+             xmlns:components="clr-namespace:MeetingNotes.MAUI.Views.Components"
+             x:Class="MeetingNotes.MAUI.Views.Components.MeetingCardView"
+             x:Name="Self"
+             x:DataType="viewModels:MeetingCardUiModel">
+    <Border Padding="16"
+            BackgroundColor="White"
+            Stroke="#E7E9F2"
+            StrokeThickness="1"
+            StrokeShape="RoundRectangle 18">
+        <Border.GestureRecognizers>
+            <TapGestureRecognizer
+                Command="{Binding OpenMeetingCommand, Source={x:Reference Self}}"
+                CommandParameter="{Binding Item.Meeting, Source={x:Reference Self}}" />
+        </Border.GestureRecognizers>
+
+        <Grid RowDefinitions="Auto,Auto,Auto"
+              ColumnDefinitions="*,Auto"
+              RowSpacing="8"
+              BindingContext="{Binding Item, Source={x:Reference Self}}">
+            <Label Text="{Binding Title}"
+                   FontFamily="OpenSansSemibold"
+                   FontSize="28"
+                   TextColor="#1E212B"
+                   LineBreakMode="WordWrap"
+                   VerticalOptions="Start"
+                   MaxLines="2" />
+
+            <components:StatusBadgeView Grid.Column="1"
+                                        Text="{Binding StatusText}"
+                                        BadgeBackgroundColor="{Binding StatusBackgroundColor}"
+                                        TextColor="{Binding StatusTextColor}"
+                                        DotColor="{Binding StatusDotColor}" />
+
+            <HorizontalStackLayout Grid.Row="1"
+                                   Grid.ColumnSpan="2"
+                                   Spacing="8"
+                                   VerticalOptions="Center">
+                <Label Text="o"
+                       FontSize="22"
+                       TextColor="#5C6375" />
+                <Label Text="{Binding RelativeTime}"
+                       FontSize="22"
+                       TextColor="#4D5568"
+                       VerticalTextAlignment="Center" />
+            </HorizontalStackLayout>
+
+            <Grid Grid.Row="2"
+                  Grid.ColumnSpan="2"
+                  ColumnDefinitions="*,Auto"
+                  VerticalOptions="Center"
+                  Margin="0,2,0,0">
+                <Border Padding="10,4"
+                        BackgroundColor="#DBE6FF"
+                        StrokeThickness="0"
+                        StrokeShape="RoundRectangle 8"
+                        IsVisible="{Binding ShowSummaryTag}">
+                    <Label Text="{Binding SummaryTagText}"
+                           FontFamily="OpenSansSemibold"
+                           FontSize="12"
+                           TextColor="#2D5EC4" />
+                </Border>
+
+                <VerticalStackLayout Grid.Column="1"
+                                     HorizontalOptions="End">
+                    <Label Text="..."
+                           FontSize="18"
+                           HorizontalTextAlignment="Center"
+                           TextColor="#B3B9CC"
+                           IsVisible="{Binding ShowOverflow}" />
+                    <Button Text="Retry"
+                            BackgroundColor="Transparent"
+                            TextColor="#2D5EC4"
+                            FontFamily="OpenSansSemibold"
+                            Padding="0"
+                            HorizontalOptions="End"
+                            IsVisible="{Binding ShowRetry}"
+                            Command="{Binding RetryCommand, Source={x:Reference Self}}"
+                            CommandParameter="{Binding Meeting}" />
+                </VerticalStackLayout>
+            </Grid>
+        </Grid>
+    </Border>
+</ContentView>

@@ -2,7 +2,6 @@ using System;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using MeetingNotes.MAUI.Core.Constants;
 using MeetingNotes.MAUI.Services.Interfaces;
 using MeetingNotes.MAUI.ViewModels.Base;
 using Microsoft.Maui.Controls;
@@ -23,6 +22,8 @@ public partial class ProfileViewModel : BaseViewModel
     {
         Title = "Profile";
         _authService = authService;
+        FullName = "AI Notes User";
+        Email = "user@ainotes.app";
     }
 
     public override async Task OnNavigatedToAsync()
@@ -91,23 +92,31 @@ public partial class ProfileViewModel : BaseViewModel
     [RelayCommand]
     private async Task LogoutAsync()
     {
-        bool confirm = await Shell.Current.DisplayAlert("Logout", "Are you sure you want to logout?", "Logout", "Cancel");
+        bool confirm = await Shell.Current.DisplayAlert("Logout", "Clear local session data?", "Clear", "Cancel");
         if (!confirm) return;
 
         IsBusy = true;
         try
         {
             await _authService.LogoutAsync();
-            await Shell.Current.GoToAsync($"///{NavigationRoutes.Login}");
+            FullName = "AI Notes User";
+            Email = "user@ainotes.app";
+            await Shell.Current.DisplayAlert("Local Mode", "Session cleared. Dashboard remains available without login.", "OK");
         }
         catch (Exception ex)
         {
             System.Diagnostics.Debug.WriteLine($"Logout error: {ex.Message}");
-            await Shell.Current.GoToAsync($"///{NavigationRoutes.Login}");
+            await Shell.Current.DisplayAlert("Error", "Could not clear session data.", "OK");
         }
         finally
         {
             IsBusy = false;
         }
+    }
+
+    [RelayCommand]
+    private async Task ManageNotificationsAsync()
+    {
+        await Shell.Current.DisplayAlert("Notifications", "Notification preferences can be configured here.", "OK");
     }
 }

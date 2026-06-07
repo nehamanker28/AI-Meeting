@@ -7,6 +7,7 @@ using MeetingNotes.MAUI.Services.Interfaces;
 using Android.Media;
 #elif IOS || MACCATALYST
 using AVFoundation;
+using AudioToolbox;
 using Foundation;
 #endif
 
@@ -32,7 +33,8 @@ public class AudioRecordingService : IAudioRecordingService
         {
             if (!_isRecording) return TimeSpan.Zero;
             if (_isPaused) return _accumulatedTime;
-            return _accumulatedTime + (DateTime.UtcNow - _startTime.Value);
+            var startTime = _startTime ?? DateTime.UtcNow;
+            return _accumulatedTime + (DateTime.UtcNow - startTime);
         }
     }
 
@@ -80,7 +82,7 @@ public class AudioRecordingService : IAudioRecordingService
         };
 
         var settingsDict = NSDictionary.FromObjectsAndKeys(values, keys);
-        NSError error;
+        NSError? error;
         _recorder = AVAudioRecorder.Create(url, new AudioSettings(settingsDict), out error);
         
         if (error != null || _recorder == null)
@@ -115,7 +117,8 @@ public class AudioRecordingService : IAudioRecordingService
 #else
             System.Diagnostics.Debug.WriteLine("Mock Recording paused");
 #endif
-            _accumulatedTime += DateTime.UtcNow - _startTime.Value;
+            var startTime = _startTime ?? DateTime.UtcNow;
+            _accumulatedTime += DateTime.UtcNow - startTime;
             _isPaused = true;
         }
         return Task.CompletedTask;

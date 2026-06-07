@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:MeetingNotes.MAUI.ViewModels.Meetings"
+             xmlns:components="clr-namespace:MeetingNotes.MAUI.Views.Components;assembly=MeetingNotes.MAUI"
+             x:Class="MeetingNotes.MAUI.Views.Meeting.MeetingsTabPage"
+             x:DataType="viewModels:MeetingsListViewModel"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="#F6F7FB">
+
+    <Grid RowDefinitions="Auto,Auto,*" Padding="16,12,16,0" RowSpacing="14">
+        <Grid Grid.Row="0" ColumnDefinitions="44,*,44" VerticalOptions="Center">
+            <Button Text="☰"
+                    FontSize="24"
+                    BackgroundColor="Transparent"
+                    TextColor="#2E62C9"
+                    Padding="0"
+                    Command="{Binding OpenMenuCommand}" />
+
+            <Label Grid.Column="1"
+                   Text="AI Notes"
+                   HorizontalTextAlignment="Start"
+                   VerticalTextAlignment="Center"
+                   Margin="10,0,0,0"
+                   FontFamily="OpenSansSemibold"
+                   FontSize="36"
+                   TextColor="#2E62C9" />
+
+            <Button Grid.Column="2"
+                    Text="⌕"
+                    FontSize="32"
+                    BackgroundColor="Transparent"
+                    TextColor="#2E62C9"
+                    Padding="0"
+                    Command="{Binding OpenGlobalSearchCommand}" />
+        </Grid>
+
+        <Border Grid.Row="1"
+                Padding="14,8"
+                BackgroundColor="White"
+                Stroke="#D3D8E8"
+                StrokeShape="RoundRectangle 16"
+                StrokeThickness="2">
+            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8" VerticalOptions="Center">
+                <Label Text="⌕"
+                       FontSize="24"
+                       VerticalOptions="Center"
+                       TextColor="#A8AFBF" />
+
+                <Entry Grid.Column="1"
+                      Text="{Binding SearchQuery}"
+                       Placeholder="Search meetings, transcripts, or AI summaries"
+                       PlaceholderColor="#A8AFBF"
+                       TextColor="#2B2F39"
+                       ClearButtonVisibility="WhileEditing"
+                       VerticalOptions="Center" />
+            </Grid>
+        </Border>
+
+        <Grid Grid.Row="2">
+            <RefreshView IsRefreshing="{Binding IsRefreshing}"
+                         Command="{Binding LoadMeetingsCommand}">
+                <CollectionView ItemsSource="{Binding MeetingCards}" Margin="0,4,0,100">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="14" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="viewModels:MeetingCardUiModel">
+                            <components:MeetingCardView
+                                Item="{Binding .}"
+                                OpenMeetingCommand="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.NavigateToMeetingCommand}"
+                                RetryCommand="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.RetryMeetingCommand}" />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </RefreshView>
+
+            <Button Text="+"
+                    HeightRequest="78"
+                    WidthRequest="78"
+                    CornerRadius="24"
+                    FontSize="42"
+                    FontFamily="OpenSansSemibold"
+                    HorizontalOptions="End"
+                    VerticalOptions="End"
+                    Margin="0,0,10,88"
+                    BackgroundColor="#2E62C9"
+                    TextColor="White"
+                    Command="{Binding NavigateToCreateCommand}" />
+        </Grid>
+    </Grid>
+</ContentPage>

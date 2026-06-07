@@ -48,7 +48,7 @@ public class AuthHttpHandler : DelegatingHandler
                 if (newToken == null)
                 {
                     await _tokenService.ClearAllTokensAsync();
-                    CommunityToolkit.Mvvm.Messaging.WeakReferenceMessenger.Default.Send(new SessionExpiredMessage());
+                   // CommunityToolkit.Mvvm.Messaging.WeakReferenceMessenger.Default.Send(new SessionExpiredMessage());
                     return response;
                 }
                 

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:MeetingNotes.MAUI.ViewModels.Profile"
+             x:Class="MeetingNotes.MAUI.Views.Meeting.ProfileTabPage"
+             x:DataType="viewModels:ProfileViewModel"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="#F6F7FB">
+
+    <Grid Padding="20" RowDefinitions="Auto,Auto,*" RowSpacing="18">
+        <Label Text="Profile"
+               FontFamily="OpenSansSemibold"
+               FontSize="34"
+               TextColor="#1E212B" />
+
+        <Border Grid.Row="1"
+                Stroke="#E7E9F2"
+                StrokeShape="RoundRectangle 18"
+                BackgroundColor="White"
+                Padding="18">
+            <VerticalStackLayout Spacing="8">
+                  <Label Text="{Binding FullName}"
+                       FontFamily="OpenSansSemibold"
+                       FontSize="24"
+                       TextColor="#1E212B" />
+                  <Label Text="{Binding Email}"
+                       FontSize="16"
+                       TextColor="#676F84" />
+                <Label Text="Manage your account, settings, and exported files."
+                       FontSize="16"
+                       TextColor="#676F84" />
+            </VerticalStackLayout>
+        </Border>
+
+        <VerticalStackLayout Grid.Row="2" Spacing="12">
+            <Button Text="Account Settings"
+                Command="{Binding SaveProfileCommand}" />
+            <Button Text="Notification Preferences"
+                Command="{Binding ManageNotificationsCommand}" />
+            <Button Text="Logout"
+                Command="{Binding LogoutCommand}"
+                    BackgroundColor="#FCE8E8"
+                    TextColor="#B23A41" />
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>
