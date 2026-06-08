@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MeetingNotes.MAUI.Core.Constants;
+using MeetingNotes.MAUI.Core.Helpers;
 using MeetingNotes.MAUI.Models;
 using MeetingNotes.MAUI.Services.Interfaces;
 using MeetingNotes.MAUI.ViewModels.Base;
 using Microsoft.Maui.Controls;
+using Microsoft.Maui.Graphics;
 
 namespace MeetingNotes.MAUI.ViewModels.Meetings;
 
@@ -20,6 +22,9 @@ public partial class MeetingsListViewModel : BaseViewModel
 
     [ObservableProperty]
     private ObservableCollection<MeetingDto> _meetings = new();
+
+    [ObservableProperty]
+    private ObservableCollection<MeetingCardUiModel> _meetingCards = new();
 
     [ObservableProperty]
     private string _searchQuery = string.Empty;
@@ -66,6 +71,7 @@ public partial class MeetingsListViewModel : BaseViewModel
             }
 
             Meetings = new ObservableCollection<MeetingDto>(result);
+            MeetingCards = new ObservableCollection<MeetingCardUiModel>(Meetings.Select(MapToCard));
             IsEmpty = !Meetings.Any();
         }
         catch (Exception ex)
@@ -125,4 +131,93 @@ public partial class MeetingsListViewModel : BaseViewModel
     {
         await Shell.Current.GoToAsync(NavigationRoutes.CreateMeeting);
     }
+
+    [RelayCommand]
+    private async Task OpenMenuAsync()
+    {
+        await Shell.Current.DisplayAlert("Menu", "Side menu can be connected here.", "OK");
+    }
+
+    [RelayCommand]
+    private async Task OpenGlobalSearchAsync()
+    {
+        await Shell.Current.GoToAsync(NavigationRoutes.Search);
+    }
+
+    [RelayCommand]
+    private async Task RetryMeetingAsync(MeetingDto? meeting)
+    {
+        if (meeting == null)
+        {
+            return;
+        }
+
+        await LoadMeetingsAsync();
+    }
+
+    private static MeetingCardUiModel MapToCard(MeetingDto meeting)
+    {
+        var normalizedStatus = (meeting.Status ?? string.Empty).Trim().ToLowerInvariant();
+        var statusText = normalizedStatus switch
+        {
+            "completed" => "Ready",
+            "ready" => "Ready",
+            "failed" => "Failed",
+            "processing" => "Processing",
+            "transcribing" => "Processing",
+            "summarising" => "Processing",
+            "embedding" => "Processing",
+            "pending" => "Pending",
+            _ => "Pending"
+        };
+
+        var statusBackgroundColor = statusText switch
+        {
+            "Ready" => Color.FromArgb("#DDE7FF"),
+            "Processing" => Color.FromArgb("#FFF1D6"),
+            "Failed" => Color.FromArgb("#FCE8E8"),
+            _ => Color.FromArgb("#EEF1F7")
+        };
+
+        var statusTextColor = statusText switch
+        {
+            "Ready" => Color.FromArgb("#2456B8"),
+            "Processing" => Color.FromArgb("#A35B00"),
+            "Failed" => Color.FromArgb("#B23A41"),
+            _ => Color.FromArgb("#4D5364")
+        };
+
+        return new MeetingCardUiModel
+        {
+            Meeting = meeting,
+            Title = meeting.Title,
+            RelativeTime = DateTimeHelper.ToRelativeTime(meeting.MeetingDate),
+            StatusText = statusText,
+            StatusBackgroundColor = statusBackgroundColor,
+            StatusTextColor = statusTextColor,
+            StatusDotColor = statusTextColor,
+            ShowSummaryTag = statusText == "Ready",
+            SummaryTagText = "AI SUMMARY READY",
+            ShowOverflow = statusText != "Failed",
+            ShowRetry = statusText == "Failed"
+        };
+    }
+}
+
+public class MeetingCardUiModel
+{
+    public required MeetingDto Meeting { get; init; }
+    public string Title { get; init; } = string.Empty;
+    public string RelativeTime { get; init; } = string.Empty;
+
+    public string StatusText { get; init; } = string.Empty;
+    public Color StatusBackgroundColor { get; init; } = Colors.Transparent;
+    public Color StatusTextColor { get; init; } = Colors.Black;
+    public Color StatusDotColor { get; init; } = Colors.Black;
+
+    public bool ShowSummaryTag { get; init; }
+    public string SummaryTagText { get; init; } = string.Empty;
+
+    public bool ShowOverflow { get; init; }
+    public bool ShowRetry { get; init; }
 }
