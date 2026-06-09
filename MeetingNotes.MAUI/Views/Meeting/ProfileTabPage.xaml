@@ -10,7 +10,7 @@
     <Grid Padding="20" RowDefinitions="Auto,Auto,*" RowSpacing="18">
         <Label Text="Profile"
                FontFamily="OpenSansSemibold"
-               FontSize="34"
+               FontSize="32"
                TextColor="#1E212B" />
 
         <Border Grid.Row="1"
@@ -21,13 +21,13 @@
             <VerticalStackLayout Spacing="8">
                   <Label Text="{Binding FullName}"
                        FontFamily="OpenSansSemibold"
-                       FontSize="24"
+                       FontSize="22"
                        TextColor="#1E212B" />
                   <Label Text="{Binding Email}"
-                       FontSize="16"
+                       FontSize="14"
                        TextColor="#676F84" />
                 <Label Text="Manage your account, settings, and exported files."
-                       FontSize="16"
+                       FontSize="14"
                        TextColor="#676F84" />
             </VerticalStackLayout>
         </Border>

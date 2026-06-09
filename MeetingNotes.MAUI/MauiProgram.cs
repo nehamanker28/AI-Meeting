@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using MeetingNotes.MAUI.Core.Constants;
-using MeetingNotes.MAUI.Http;
 using MeetingNotes.MAUI.Services.Api;
 using MeetingNotes.MAUI.Services.Export;
 using MeetingNotes.MAUI.Services.Interfaces;
@@ -12,6 +11,8 @@ using MeetingNotes.MAUI.ViewModels.Auth;
 using MeetingNotes.MAUI.ViewModels.Content;
 using MeetingNotes.MAUI.ViewModels.Meetings;
 using MeetingNotes.MAUI.ViewModels.Profile;
+using MeetingNotes.MAUI.Views.Meeting;
+using MeetingNotes.MAUI.Views.create_meeting;
 
 namespace MeetingNotes.MAUI;
 
@@ -33,8 +34,7 @@ public static class MauiProgram
 
 		// Register mock/local services for faster local development and to avoid
 		// making real API calls. These are only registered in DEBUG builds.
-		builder.Services.AddSingleton<Services.Interfaces.ISecureTokenService, Services.Local.MockSecureTokenService>();
-		builder.Services.AddScoped<Services.Interfaces.IAuthService, Services.Local.MockAuthService>();
+		builder.Services.AddScoped<IAuthService,MockAuthService>();
 #endif
 
 		builder.Services.AddSingleton<ISecureTokenService, SecureTokenService>();
@@ -48,26 +48,31 @@ public static class MauiProgram
 			client.Timeout = TimeSpan.FromSeconds(AppConstants.ApiTimeoutSeconds);
 		}).ConfigurePrimaryHttpMessageHandler<LocalApiHttpMessageHandler>();
 
-		builder.Services.AddHttpClient<IAuthService, AuthService>(client =>
-		{
-			client.BaseAddress = new Uri("https://local.api");
-			client.Timeout = TimeSpan.FromSeconds(AppConstants.ApiTimeoutSeconds);
-		}).ConfigurePrimaryHttpMessageHandler<LocalApiHttpMessageHandler>();
+		// builder.Services.AddHttpClient<IAuthService, AuthService>(client =>
+		// {
+		// 	client.BaseAddress = new Uri("https://local.api");
+		// 	client.Timeout = TimeSpan.FromSeconds(AppConstants.ApiTimeoutSeconds);
+		// }).ConfigurePrimaryHttpMessageHandler<LocalApiHttpMessageHandler>();
 
-		builder.Services.AddHttpClient<IChatService, ChatService>(client =>
-		{
-			client.BaseAddress = new Uri("https://local.api");
-			client.Timeout = TimeSpan.FromSeconds(AppConstants.ApiTimeoutSeconds);
-		}).ConfigurePrimaryHttpMessageHandler<LocalApiHttpMessageHandler>();
+		// builder.Services.AddHttpClient<IChatService, ChatService>(client =>
+		// {
+		// 	client.BaseAddress = new Uri("https://local.api");
+		// 	client.Timeout = TimeSpan.FromSeconds(AppConstants.ApiTimeoutSeconds);
+		// }).ConfigurePrimaryHttpMessageHandler<LocalApiHttpMessageHandler>();
 
-		builder.Services.AddTransient<IExportService, ExportService>();
+		// builder.Services.AddTransient<IExportService, ExportService>();
+		builder.Services.AddSingleton<AppShell>();
+		builder.Services.AddTransient<MeetingsTabPage>();
+		builder.Services.AddTransient<ProfileTabPage>();
+		builder.Services.AddTransient<CreateMeetingPage>();
 
-		builder.Services.AddTransient<LoginViewModel>();
-		builder.Services.AddTransient<RegisterViewModel>();
-		builder.Services.AddTransient<ForgotPasswordViewModel>();
-		builder.Services.AddTransient<ChatViewModel>();
+		// builder.Services.AddTransient<LoginViewModel>();
+		// builder.Services.AddTransient<RegisterViewModel>();
+		// builder.Services.AddTransient<ForgotPasswordViewModel>();
+		// builder.Services.AddTransient<ChatViewModel>();
 		builder.Services.AddTransient<MeetingsListViewModel>();
 		builder.Services.AddTransient<ProfileViewModel>();
+		builder.Services.AddTransient<CreateMeetingViewModel>();
 
 		return builder.Build();
 	}

@@ -22,6 +22,9 @@ public partial class CreateMeetingViewModel : BaseViewModel
     [ObservableProperty]
     private DateTime _meetingDate = DateTime.Today;
 
+    [ObservableProperty]
+    private string _remoteSourceUrl = string.Empty;
+
     public CreateMeetingViewModel(IMeetingService meetingService)
     {
         Title = "New Meeting";
@@ -46,6 +49,28 @@ public partial class CreateMeetingViewModel : BaseViewModel
         {
             await Shell.Current.GoToAsync($"{NavigationRoutes.UploadAudio}?id={id}");
         }
+    }
+
+    [RelayCommand]
+    private async Task ProcessRemoteLinkAsync()
+    {
+        if (string.IsNullOrWhiteSpace(RemoteSourceUrl))
+        {
+            SetError("Please paste a source link.");
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(MeetingTitle))
+        {
+            MeetingTitle = $"Remote Import {DateTime.Now:MMM d, yyyy h:mm tt}";
+        }
+
+        if (string.IsNullOrWhiteSpace(Description))
+        {
+            Description = $"Source URL: {RemoteSourceUrl}";
+        }
+
+        await CreateAndUploadAsync();
     }
 
     private async Task<Guid> SaveMeetingAsync()

@@ -3,21 +3,6 @@
     x:Class="MeetingNotes.MAUI.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:views="clr-namespace:MeetingNotes.MAUI.Views.Meeting"
     Title="MeetingNotes.MAUI">
-
-    <TabBar>
-        <Tab Title="Meetings" Route="MeetingsTab">
-            <ShellContent
-                ContentTemplate="{DataTemplate views:MeetingsTabPage}"
-                Route="MeetingsTabPage" />
-        </Tab>
-
-        <Tab Title="Profile" Route="ProfileTab">
-            <ShellContent
-                ContentTemplate="{DataTemplate views:ProfileTabPage}"
-                Route="ProfileTabPage" />
-        </Tab>
-    </TabBar>
 
 </Shell>

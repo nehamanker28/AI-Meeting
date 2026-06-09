@@ -1,4 +1,3 @@
-using MeetingNotes.MAUI.Core.Helpers;
 using MeetingNotes.MAUI.ViewModels.Profile;
 
 namespace MeetingNotes.MAUI.Views.Meeting;
@@ -7,16 +6,17 @@ public partial class ProfileTabPage : ContentPage
 {
     private readonly ProfileViewModel _viewModel;
 
-    public ProfileTabPage()
+    public ProfileTabPage(ProfileViewModel viewModel)
     {
         InitializeComponent();
-        _viewModel = ServiceResolver.GetRequiredService<ProfileViewModel>();
+        _viewModel = viewModel;
         BindingContext = _viewModel;
     }
 
-    protected override async void OnAppearing()
-    {
-        base.OnAppearing();
-        await _viewModel.OnNavigatedToAsync();
-    }
+    // protected override async void OnAppearing()
+    // {
+    //     base.OnAppearing();
+
+    //     await _viewModel.OnNavigatedToAsync();
+    // }
 }

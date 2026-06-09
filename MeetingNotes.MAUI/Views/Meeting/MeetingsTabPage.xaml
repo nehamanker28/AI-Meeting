@@ -11,7 +11,7 @@
     <Grid RowDefinitions="Auto,Auto,*" Padding="16,12,16,0" RowSpacing="14">
         <Grid Grid.Row="0" ColumnDefinitions="44,*,44" VerticalOptions="Center">
             <Button Text="☰"
-                    FontSize="24"
+                    FontSize="22"
                     BackgroundColor="Transparent"
                     TextColor="#2E62C9"
                     Padding="0"
@@ -23,12 +23,12 @@
                    VerticalTextAlignment="Center"
                    Margin="10,0,0,0"
                    FontFamily="OpenSansSemibold"
-                   FontSize="36"
+                   FontSize="34"
                    TextColor="#2E62C9" />
 
             <Button Grid.Column="2"
                     Text="⌕"
-                    FontSize="32"
+                    FontSize="30"
                     BackgroundColor="Transparent"
                     TextColor="#2E62C9"
                     Padding="0"
@@ -43,7 +43,7 @@
                 StrokeThickness="2">
             <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8" VerticalOptions="Center">
                 <Label Text="⌕"
-                       FontSize="24"
+                       FontSize="22"
                        VerticalOptions="Center"
                        TextColor="#A8AFBF" />
 
@@ -79,7 +79,7 @@
                     HeightRequest="78"
                     WidthRequest="78"
                     CornerRadius="24"
-                    FontSize="42"
+                    FontSize="40"
                     FontFamily="OpenSansSemibold"
                     HorizontalOptions="End"
                     VerticalOptions="End"

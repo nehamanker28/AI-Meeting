@@ -23,7 +23,7 @@
               BindingContext="{Binding Item, Source={x:Reference Self}}">
             <Label Text="{Binding Title}"
                    FontFamily="OpenSansSemibold"
-                   FontSize="28"
+                   FontSize="26"
                    TextColor="#1E212B"
                    LineBreakMode="WordWrap"
                    VerticalOptions="Start"
@@ -40,10 +40,10 @@
                                    Spacing="8"
                                    VerticalOptions="Center">
                 <Label Text="o"
-                       FontSize="22"
+                       FontSize="20"
                        TextColor="#5C6375" />
                 <Label Text="{Binding RelativeTime}"
-                       FontSize="22"
+                       FontSize="20"
                        TextColor="#4D5568"
                        VerticalTextAlignment="Center" />
             </HorizontalStackLayout>
@@ -60,14 +60,14 @@
                         IsVisible="{Binding ShowSummaryTag}">
                     <Label Text="{Binding SummaryTagText}"
                            FontFamily="OpenSansSemibold"
-                           FontSize="12"
+                           FontSize="10"
                            TextColor="#2D5EC4" />
                 </Border>
 
                 <VerticalStackLayout Grid.Column="1"
                                      HorizontalOptions="End">
                     <Label Text="..."
-                           FontSize="18"
+                           FontSize="16"
                            HorizontalTextAlignment="Center"
                            TextColor="#B3B9CC"
                            IsVisible="{Binding ShowOverflow}" />

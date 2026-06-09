@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:MeetingNotes.MAUI.ViewModels.Meetings"
+             x:Class="MeetingNotes.MAUI.Views.create_meeting.CreateMeetingPage"
+             x:DataType="viewModels:CreateMeetingViewModel"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="#F4F4F7">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20,12,20,28" Spacing="20">
+            <Grid ColumnDefinitions="Auto,*,Auto" VerticalOptions="Center">
+                <Button Text="←"
+                        WidthRequest="36"
+                        HeightRequest="36"
+                        Padding="0"
+                        FontSize="26"
+                        FontFamily="OpenSansSemibold"
+                        BackgroundColor="Transparent"
+                        TextColor="#114BB4"
+                        Clicked="OnBackClicked" />
+
+                <Label Grid.Column="1"
+                       Text="Upload Audio"
+                       HorizontalTextAlignment="Start"
+                       VerticalTextAlignment="Center"
+                       Margin="10,0,0,0"
+                       FontFamily="OpenSansSemibold"
+                       FontSize="32"
+                       TextColor="#114BB4" />
+
+                <Button Grid.Column="2"
+                        Text="?"
+                        WidthRequest="34"
+                        HeightRequest="34"
+                        Padding="0"
+                        FontSize="16"
+                        FontFamily="OpenSansSemibold"
+                        BackgroundColor="Transparent"
+                        TextColor="#114BB4"
+                        BorderColor="#114BB4"
+                        BorderWidth="2"
+                        CornerRadius="17"
+                        Clicked="OnHelpClicked" />
+            </Grid>
+
+            <VerticalStackLayout Spacing="10" Margin="0,10,0,8">
+                <Label Text="Transcribe with&#10;Precision"
+                       HorizontalTextAlignment="Center"
+                       FontFamily="Times New Roman"
+                       FontSize="36"
+                       LineHeight="1.0"
+                       TextColor="#17181D" />
+
+                <Label Text="Convert your meetings, lectures, or voice&#10;notes into scholarly archives."
+                       HorizontalTextAlignment="Center"
+                       FontSize="16"
+                       LineHeight="1.4"
+                       TextColor="#2E3242" />
+            </VerticalStackLayout>
+
+            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                <Label Text="◧"
+                       TextColor="#82711F"
+                       FontSize="15"
+                       VerticalTextAlignment="Center" />
+                <Label Grid.Column="1"
+                       Text="LOCAL ARCHIVE"
+                       FontSize="13"
+                       FontFamily="OpenSansSemibold"
+                       CharacterSpacing="2"
+                       TextColor="#21253A" />
+            </Grid>
+
+            <Border Stroke="#C4CBDD"
+                    StrokeShape="RoundRectangle 12"
+                    StrokeThickness="2"
+                    StrokeDashArray="6,4"
+                    BackgroundColor="Transparent"
+                    Padding="20,26">
+                <VerticalStackLayout Spacing="12" HorizontalOptions="Center">
+                    <Border BackgroundColor="#E8ECF5"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 18"
+                            HeightRequest="74"
+                            WidthRequest="74"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center">
+                        <Label Text="☁"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               FontSize="33"
+                               TextColor="#114BB4" />
+                    </Border>
+
+                    <Label Text="Tap to select or drag and drop"
+                           FontFamily="OpenSansSemibold"
+                           FontSize="18"
+                           HorizontalTextAlignment="Center"
+                           TextColor="#10131C" />
+
+                    <Label Text="Supported: MP3, WAV, M4A, AAC"
+                           FontSize="14"
+                           HorizontalTextAlignment="Center"
+                           TextColor="#3A4053" />
+
+                    <Border StrokeThickness="0"
+                            BackgroundColor="#E5E5EA"
+                            StrokeShape="RoundRectangle 14"
+                            Padding="12,4"
+                            HorizontalOptions="Center">
+                        <Label Text="MAX 100MB"
+                               FontSize="10"
+                               FontFamily="OpenSansSemibold"
+                               TextColor="#2D3142" />
+                    </Border>
+                </VerticalStackLayout>
+
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding CreateAndUploadCommand}" />
+                </Border.GestureRecognizers>
+            </Border>
+
+            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8" Margin="0,8,0,0">
+                <Label Text="⛓"
+                       TextColor="#82711F"
+                       FontSize="15"
+                       VerticalTextAlignment="Center" />
+                <Label Grid.Column="1"
+                       Text="REMOTE SOURCE"
+                       FontSize="13"
+                       FontFamily="OpenSansSemibold"
+                       CharacterSpacing="2"
+                       TextColor="#21253A" />
+            </Grid>
+
+            <Border Stroke="#ECEEF4"
+                    StrokeShape="RoundRectangle 10"
+                    BackgroundColor="#FFFFFF"
+                    Padding="0">
+                <VerticalStackLayout Spacing="0">
+                    <Grid ColumnDefinitions="Auto,*" Padding="14,12" ColumnSpacing="10">
+                        <Label Text="🌐"
+                               FontSize="24"
+                               VerticalTextAlignment="Center"
+                               TextColor="#6E7385" />
+                        <Entry Grid.Column="1"
+                               Text="{Binding RemoteSourceUrl}"
+                               FontSize="14"
+                               BackgroundColor="Transparent"
+                               Placeholder="Paste link (YouTube, Zoom, Google Drive...)"
+                               PlaceholderColor="#9CA2B3"
+                               TextColor="#202533" />
+                    </Grid>
+
+                    <Button Text="Process Link  →"
+                            HeightRequest="42"
+                            Margin="6,0,6,6"
+                            CornerRadius="6"
+                            FontFamily="OpenSansSemibold"
+                            FontSize="25"
+                            TextColor="White"
+                            BackgroundColor="#154CB2"
+                            Command="{Binding ProcessRemoteLinkCommand}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Label Text="Note: Processing times for URL imports may vary based on external server speed."
+                   FontSize="12"
+                   FontAttributes="Italic"
+                   Margin="8,0,0,0"
+                   TextColor="#6E7485" />
+
+            <Border BackgroundColor="#ECEFF5"
+                    StrokeThickness="0"
+                    StrokeShape="RoundRectangle 14"
+                    Padding="16,20"
+                    Margin="0,12,0,0">
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="✦"
+                               FontSize="26"
+                               TextColor="#114BB4" />
+                        <Label Text="AI Summary"
+                               FontFamily="Times New Roman"
+                               FontSize="32"
+                               TextColor="#11131B" />
+                        <Label Text="Instantly extract key takeaways, action items, and scholarly insights from your recordings."
+                               FontSize="14"
+                               LineHeight="1.45"
+                               TextColor="#32374A" />
+                    </VerticalStackLayout>
+
+                    <Label Grid.Column="1"
+                           Text="◔"
+                           FontSize="88"
+                           TextColor="#D4D7DF"
+                           VerticalOptions="End"
+                           Margin="0,0,0,-6" />
+                </Grid>
+            </Border>
+
+            <Border BackgroundColor="#EEE8D5"
+                    Stroke="#E4D8A7"
+                    StrokeShape="RoundRectangle 14"
+                    Padding="16,20">
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="◫"
+                               FontSize="23"
+                               TextColor="#77650E" />
+                        <Label Text="Secure Vault"
+                               FontFamily="Times New Roman"
+                               FontSize="32"
+                               TextColor="#1A1A1A" />
+                        <Label Text="Your data is encrypted end-to-end. We maintain a zero-access policy for all uploaded media."
+                               FontSize="14"
+                               LineHeight="1.45"
+                               TextColor="#333746" />
+                    </VerticalStackLayout>
+
+                    <Label Grid.Column="1"
+                           Text="⬒"
+                           FontSize="84"
+                           TextColor="#D8D0B4"
+                           VerticalOptions="End"
+                           Margin="0,0,0,-6" />
+                </Grid>
+            </Border>
+
+            <ActivityIndicator IsRunning="{Binding IsBusy}"
+                               IsVisible="{Binding IsBusy}"
+                               Color="#2456B8" />
+
+            <Label Text="{Binding ErrorMessage}"
+                   IsVisible="{Binding HasError}"
+                   HorizontalTextAlignment="Center"
+                   TextColor="#B23A41"
+                   FontSize="12" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

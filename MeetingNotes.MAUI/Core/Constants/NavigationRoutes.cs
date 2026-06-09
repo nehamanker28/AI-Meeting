@@ -15,4 +15,6 @@ public static class NavigationRoutes
     public const string Export = "ExportPage";
     public const string Profile = "ProfilePage";
     public const string Settings = "SettingsPage";
+
+    public const string MeetingTab = "MeetingTabPage";
 }

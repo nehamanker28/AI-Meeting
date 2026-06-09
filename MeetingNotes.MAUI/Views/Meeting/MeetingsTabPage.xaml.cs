@@ -1,5 +1,4 @@
 using CommunityToolkit.Mvvm.Input;
-using MeetingNotes.MAUI.Core.Helpers;
 using MeetingNotes.MAUI.ViewModels.Meetings;
 
 namespace MeetingNotes.MAUI.Views.Meeting;
@@ -8,10 +7,10 @@ public partial class MeetingsTabPage : ContentPage
 {
     private readonly MeetingsListViewModel _viewModel;
 
-    public MeetingsTabPage()
+    public MeetingsTabPage(MeetingsListViewModel viewModel)
     {
         InitializeComponent();
-        _viewModel = ServiceResolver.GetRequiredService<MeetingsListViewModel>();
+        _viewModel = viewModel;
         BindingContext = _viewModel;
     }
 
